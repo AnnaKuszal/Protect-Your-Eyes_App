@@ -10,6 +10,19 @@ class App extends React.Component {
       timer: null
     };
   }
+
+  formatTime = arg => { 
+    if(arg == undefined ||isNaN(arg) || typeof(arg) == 'function' || arg < 0) {
+      return null;
+    }
+    else {
+      let input = arg;
+      let seconds = Math.floor(input%60).toString();
+      let minutes = Math.floor((input/60)%60).toString();
+
+      return minutes.padStart(2, '0') + ':' + seconds.padStart(2, '0');
+    }
+  };
   
   render() {
     const { status } = this.state;
@@ -24,7 +37,7 @@ class App extends React.Component {
         </div>}
         {(status === 'work') && <img src="./images/work.png" />}
         {(status === 'rest') && <img src="./images/rest.png" />}
-        {(status !== 'off') && <div className="timer">18:30</div>} 
+        {(status !== 'off') && <div className="timer">{this.formatTime(this.state.time)}</div>}  
         {(status === 'off') && <button className="btn">Start</button>}
         {(status !== 'off') && <button className="btn">Stop</button>}
         <button className="btn btn-close">X</button>
